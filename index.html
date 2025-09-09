@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="bg-black text-yellow-400 font-sans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elite Skins Exchange - Plataforma Completa para CS:2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <style>
+    body {
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      color: #d4af37;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .btn-primary {
+      background-color: #e0115f;
+      color: #d4af37;
+      font-weight: 700;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background-color: #b0104b;
+    }
+    .gold-accent {
+      color: #d4af37;
+    }
+    .ruby-accent {
+      color: #e0115f;
+    }
+    .card {
+      background-color: #1a1a1a;
+      border: 2px solid #d4af37;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px #d4af37aa;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #e0115faa;
+    }
+    .modal-bg {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background-color: #d4af37;
+      border-radius: 3px;
+    }
+    .scrollbar-thin {
+      scrollbar-width: thin;
+      scrollbar-color: #d4af37 transparent;
+    }
+    /* Animations */
+    @keyframes pulse-ruby {
+      0%,
+      100% {
+        box-shadow: 0 0 10px #e0115f;
+      }
+      50% {
+        box-shadow: 0 0 20px #ff2a7a;
+      }
+    }
+    .pulse-ruby {
+      animation: pulse-ruby 2s infinite;
+    }
+    /* FAQ Accordion */
+    .faq-item {
+      border-bottom: 1px solid #d4af37;
+      padding: 1rem 0;
+      cursor: pointer;
+    }
+    .faq-question {
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question::after {
+      content: "+";
+      transition: transform 0.3s;
+    }
+    .faq-item.active .faq-question::after {
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      color: #ffd700cc;
+      margin-top: 0.5rem;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+    /* Image styling */
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 15px #d4af37aa;
+    }
+  </style>
+</head>
+<body class="relative bg-black text-yellow-400 p-4">
+  <!-- Header -->
+  <header
+    class="flex flex-col md:flex-row justify-between items-center py-6 px-8 bg-gray-900 rounded-t-xl shadow-lg sticky top-0 z-50"
+  >
+    <div class="flex items-center space-x-4">
+      <img
+        src="https://placehold.co/150x60/ff0000/ffffff?text=Elite+Skins+Exchange+Logo+Gamer"
+        alt="Logotipo Elite Skins Exchange exibindo escudo cromado dourado com ícone de troca de armas e moeda virtual, sobre fundo negro com toques vermelho rubi para tema cyberpunk CS2"
+        class="h-12 rounded-full shadow-lg"
+      />
+      <h1 class="text-3xl font-bold gold-accent">Elite Skins Exchange</h1>
+    </div>
+    <nav class="mt-4 md:mt-0 flex flex-wrap gap-2">
+      <button onclick="switchSection('home')" class="btn-primary">Home</button>
+      <button onclick="switchSection('market')" class="btn-primary">Mercado Integrado</button>
+      <button onclick="switchSection('trade')" class="btn-primary">Trocas</button>
+      <button onclick="switchSection('sell')" class="btn-primary">Vender Skins</button>
+      <button onclick="switchSection('wallet')" class="btn-primary">Carteira Virtual</button>
+      <button onclick="switchSection('giveaways')" class="btn-primary">Sorteios</button>
+      <button onclick="switchSection('profile')" class="btn-primary">Perfil</button>
+      <button onclick="switchSection('history')" class="btn-primary">Compras & Vendas</button>
+      <button onclick="switchSection('faq')" class="btn-primary">FAQ: Como Comprar/Vender</button>
+      <button
+        onclick="alert('Login Steam simulado!')"
+        class="bg-steam px-4 py-2 rounded text-white font-bold"
+      >
+        Login Steam
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto p-6">
+    <!-- Home -->
+    <section id="home" class="section active fade-in">
+      <div class="text-center mb-8">
+        <h2 class="text-5xl font-extrabold gold-accent mb-4">
+          Bem-vindo à Elite Skins Exchange
+        </h2>
+        <p class="text-xl text-yellow-300 mb-6">
+          Compra, venda, troque skins CS:2 e participe de sorteios exclusivos!
+        </p>
+        <img
+          src="https://placehold.co/1200x400/000000/d4af37?text=Plataforma+Gamer+Premium+com+Gráfico+de+Troca+e+Skins+Elite"
+          alt="Capa principal da plataforma gamer premium para troca de skins CS2, mostrando gráficos de trocas recentes, skins elites douradas e vermelho rubi sobre fundo cyberpunk"
+          class="w-full rounded-lg shadow-lg"
+        />
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+        <div class="card p-6 text-center">
+          <img
+            src="https://placehold.co/150x150/d4af37/e0115f?text=Troca"
+            alt="Ícone de troca de skins com design gamer dourado e vermelho rubi simbolizando negociação justa e segura entre usuários"
+            class="mx-auto mb-4"
+          />
+          <h3 class="text-2xl font-bold gold-accent mb-2">Trocas Seguras</h3>
+          <p>
+            Negocie diretamente com usuários verificados, com sistema de pontos e
+            histórico.
+          </p>
+        </div>
+        <div class="card p-6 text-center">
+          <img
+            src="https://placehold.co/150x150/e0115f/d4af37?text=Mercado"
+            alt="Ícone de mercado integrado com skins douradas criando ponte para marketplaces externos"
+            class="mx-auto mb-4"
+          />
+          <h3 class="text-2xl font-bold gold-accent mb-2">Mercado Integrado</h3>
+          <p>Compre via parceiros e ganhe.comissões extras para trocas avançadas.</p>
+        </div>
+        <div class="card p-6 text-center">
+          <img
+            src="https://placehold.co/150x150/d4af37/000000?text=Sorteios"
+            alt="Ícone de sorteios com presente dourado vermelho rubi para ganhar skins exclusivas"
+            class="mx-auto mb-4"
+          />
+          <h3 class="text-2xl font-bold gold-accent mb-2">Sorteios de Luxo</h3>
+          <p>Acumule pontos por compras/vendas para fichas de sorteios raros.</p>
+        </div>
+      </div>
+      <div class="mt-6">
+        <h3 class="text-3xl gold-accent mb-4">Evolução de Trades (últimos 7 días)</h3>
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+          <canvas id="tradeChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Market -->
+    <section id="market" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">
+        Mercado Integrado - Compre de Usuários e Parceiros
+      </h2>
+      <p class="mb-4 text-yellow-300">
+        Aqui você compra skins de outros usuários e é redirecionado para
+        marketplaces externos, onde ganhamos uma comissão em cada venda.
+      </p>
+      <div
+        id="market-skins"
+        class="grid grid-cols-1 md:grid-cols-4 gap-6 max-h-96 overflow-y-auto scrollbar-thin p-2"
+      >
+        <!-- Marketplace skins cards -->
+      </div>
+      <div class="mt-6 bg-gray-800 p-4 rounded-lg">
+        <h3 class="text-2xl gold-accent mb-4">
+          Parceiros Externos - Redirecionamento com Comissão
+        </h3>
+        <p class="mb-4">
+          Clique para ser redirecionado e comprar (simulado para demo). Nosso
+          site ganha 5-7% em cada transação:
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <button onclick="redirectPartner('Buff.163')" class="btn-primary">
+            Buff.163 (5%)
+          </button>
+          <button onclick="redirectPartner('CSGOSKINS.GG')" class="btn-primary">
+            CSGOSKINS.GG (6%)
+          </button>
+          <button onclick="redirectPartner('CSInventoryAPI')" class="btn-primary">
+            CSInventoryAPI (7%)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trade -->
+    <section id="trade" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">
+        Trocas Diretas Entre Usuários
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-2xl ruby-accent mb-4">Seu Inventário</h3>
+          <div id="trade-inventory" class="grid grid-cols-2 gap-4">
+            <!-- Inventário carregado por JS -->
+          </div>
+        </div>
+        <div>
+          <h3 class="text-2xl gold-accent mb-4">Oferta de Troca</h3>
+          <div
+            id="trade-offer"
+            class="border-2 border-yellow-600 p-4 mb-4 rounded min-h-32"
+          >
+            <p>Nenhuma skin selecionada.</p>
+          </div>
+          <input
+            id="trade-target"
+            type="text"
+            placeholder="ID/Usuário alvo"
+            class="w-full p-3 bg-gray-800 text-yellow-400 rounded mb-4"
+          />
+          <button onclick="sendTradeOffer()" class="btn-primary w-full">
+            Enviar Oferta de Troca
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sell -->
+    <section id="sell" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">Vender Suas Skins</h2>
+      <form
+        id="sell-form"
+        class="space-y-4 max-w-lg"
+        onsubmit="sellSkin(event)"
+        autocomplete="off"
+      >
+        <input
+          id="skin-name"
+          type="text"
+          placeholder="Nome da Skin"
+          required
+          class="w-full p-3 bg-gray-800 text-yellow-400 rounded"
+        />
+        <input
+          id="skin-price"
+          type="number"
+          placeholder="Preço USD"
+          min="0"
+          step="0.01"
+          required
+          class="w-full p-3 bg-gray-800 text-yellow-400 rounded"
+        />
+        <input
+          id="skin-image"
+          type="url"
+          placeholder="URL da Imagem"
+          required
+          class="w-full p-3 bg-gray-800 text-yellow-400 rounded"
+        />
+        <button type="submit" class="btn-primary w-full">
+          Cadastrar para Venda
+        </button>
+      </form>
+      <div
+        id="user-skins"
+        class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-h-96 overflow-y-auto scrollbar-thin"
+      >
+        <!-- Skins do usuário para venda -->
+      </div>
+    </section>
+
+    <!-- Wallet -->
+    <section id="wallet" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">Carteira Virtual</h2>
+      <div class="max-w-md mx-auto bg-gray-800 p-6 rounded-lg">
+        <h3 class="text-xl gold-accent mb-4">
+          Saldo Atual: <span id="wallet-balance">0</span> Créditos
+        </h3>
+        <input
+          id="amount"
+          type="number"
+          placeholder="Valor em R$"
+          min="1"
+          class="w-full p-3 bg-gray-700 text-yellow-400 rounded mb-4"
+        />
+        <div class="space-y-2">
+          <button onclick="payMethod('PIX')" class="btn-primary w-full">PIX</button>
+          <button
+            onclick="payMethod('Transferência')"
+            class="btn-primary w-full"
+          >
+            Transferência Bancária
+          </button>
+          <button onclick="payMethod('Crypto')" class="btn-primary w-full">
+            Carteira Cripto
+          </button>
+          <button onclick="payMethod('PicPay')" class="btn-primary w-full">
+            PicPay
+          </button>
+          <button onclick="payMethod('Mercado Pago')" class="btn-primary w-full">
+            Mercado Pago
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Giveaways -->
+    <section id="giveaways" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">
+        Sorteios Exclusivos
+      </h2>
+      <p class="mb-4 text-yellow-300">Use pontos para fichas de sorteio!</p>
+      <div
+        id="giveaways-list"
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto scrollbar-thin p-2"
+      >
+        <!-- Sorteios carregados por JS -->
+      </div>
+      <div class="mt-6 text-center">
+        <p>Seus Pontos: <span id="user-points">0</span></p>
+        <button onclick="enterGiveaway(0)" class="btn-primary mt-4">
+          Entrar (50 pts)
+        </button>
+      </div>
+    </section>
+
+    <!-- Profile -->
+    <section id="profile" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">Perfil do Usuário</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-800 p-6 rounded-lg text-center">
+          <img
+            src="https://placehold.co/150x150/d4af37/e0115f?text=Avatar"
+            alt="Avatar personalizado do usuário gamer com elementos dourados e vermelho rubi representando nível elite"
+            class="w-24 h-24 rounded-full mx-auto mb-4"
+          />
+          <h3 class="text-lg gold-accent">Seu Nome</h3>
+          <p>
+            Pontos: <span id="profile-points">0</span> | Créditos:
+            <span id="profile-credits">0</span>
+          </p>
+          <p>
+            Trocas: <span id="profile-trades">0</span> | Vendas:
+            <span id="profile-sales">0</span>
+          </p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-xl ruby-accent mb-4">Histórico</h3>
+          <ul id="profile-history" class="space-y-2"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section id="history" class="section hidden">
+      <h2 class="text-4xl font-extrabold gold-accent mb-6">
+        Histórico de Compras e Vendas
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div
+          class="bg-gray-800 p-6 rounded-lg max-h-96 overflow-y-auto scrollbar-thin"
+        >
+          <h3 class="text-2xl ruby-accent mb-4">Compras</h3>
+          <ul id="purchase-history" class="space-y-2"></ul>
+        </div>
+        <div
+          class="bg-gray-800 p-6 rounded-lg max-h-96 overflow-y-auto scrollbar-thin"
+        >
+          <h3 class="text-2xl gold-accent mb-4">Vendas</h3>
+          <ul id="sales-history" class="space-y-2">
